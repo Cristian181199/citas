@@ -13,4 +13,14 @@ class Compania extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function citas()
+    {
+        return $this->hasMany(Cita::class);
+    }
+
+    public function especialistas()
+    {
+        return $this->belongsToMany(Especialista::class);
+    }
 }

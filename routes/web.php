@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CitaController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
@@ -19,10 +20,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
-
 Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/dashboard', function () {
@@ -31,6 +28,11 @@ Route::group(['middleware' => 'auth'], function() {
 
     Route::view('profile', 'profile')->name('profile');
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::view('gestion-citas', 'gestion-citas')->name('dashboard-citas');
+    Route::get('/citas', [CitaController::class, 'index'])->name('ver-citas');
+    Route::get('/cita/create', [CitaController::class, 'create'])->name('crear-cita');
+    Route::delete('/cita/{id}', [CitaController::class, 'destroy'])->name('anular-cita');
 });
 
 require __DIR__.'/auth.php';

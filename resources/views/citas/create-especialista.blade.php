@@ -10,11 +10,15 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200 flex flex-col items-center">
                     <h1 class="text-xl">Seleccione al especialista</h1>
-                        @foreach ($especialistas as $especialista)
-                            <a class="px-4 m-2 rounded bg-gray-300" href=" {{ route('crear-cita-fechaHora', [$compania, $especialidad, $especialista]) }} ">
-                                {{ $especialista->nombre }}
+
+                    @for ($i=0; $i < $especialistasprueba->count(); $i++)
+                        @if (!$especialistasprueba->isEmpty() == true)
+                            <a class="px-4 m-2 rounded bg-gray-300" href="{{ route('crear-cita-fechaHora', [$compania, $especialidad, $especialistasprueba[$i]->id]) }}">
+                                {{ $especialistasprueba[$i]->nombre }}
                             </a>
-                        @endforeach
+                        @endif
+                    @endfor
+
                     <a href="{{ route('crear-cita-especialidad', [$compania, $especialidad]) }}" class="mt-4 text-blue-900 hover:underline">Volver</a>
                 </div>
             </div>

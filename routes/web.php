@@ -32,7 +32,12 @@ Route::group(['middleware' => 'auth'], function() {
     Route::view('gestion-citas', 'gestion-citas')->name('dashboard-citas');
     Route::get('/citas', [CitaController::class, 'index'])->name('ver-citas');
     Route::get('/cita/create', [CitaController::class, 'create'])->name('crear-cita');
-    Route::delete('/cita/{id}', [CitaController::class, 'destroy'])->name('anular-cita');
+    Route::delete('/cita/{cita}', [CitaController::class, 'destroy'])->name('anular-cita');
+    Route::get('/cita/create/{compania}', [CitaController::class, 'createEspecialidad'])->name('crear-cita-especialidad');
+    Route::get('/cita/create/{compania}/{especialidad}', [CitaController::class, 'createEspecialista'])->name('crear-cita-especialista');
+    Route::get('/cita/create/{compania}/{especialidad}/{especialista}', [CitaController::class, 'createFechaHora'])->name('crear-cita-fechaHora');
+
+
 });
 
 require __DIR__.'/auth.php';

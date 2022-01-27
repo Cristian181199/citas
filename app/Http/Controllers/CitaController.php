@@ -41,17 +41,23 @@ class CitaController extends Controller
 
     public function createEspecialista(Compania $compania, Especialidad $especialidad)
     {
-        $especialistas = DB::table('compania_especialista')
+        /*$especialistasmio = DB::table('compania_especialista')
                              ->join('especialistas', 'compania_especialista.especialista_id', '=', 'especialistas.id')
                              ->join('especialidades', 'especialistas.especialidad_id', '=', 'especialidades.id')
                              ->where('compania_especialista.compania_id', '=', $compania->id)
                              ->where('especialidades.id', '=', $especialidad->id)
-                             ->select('compania_especialista.especialista_id as id', 'especialistas.nombre as nombre')->get();
+                             ->select('compania_especialista.especialista_id as id', 'especialistas.nombre as nombre')->get();*/
+
+        $especialistas = Especialista::whereHas('especialidad', function ($query) use($especialidad) {
+            $query->where('especialidad_id', $especialidad->id);
+        })->whereHas('companias', function ($query) use ($compania) {
+            $query->where('compania_id', $compania->id);
+        })->get();
+
         return view('citas.create-especialista', [
             'compania' => $compania,
             'especialidad' => $especialidad,
-            'especialistas' => $especialidad->especialistas,
-            'especialistasprueba' => $especialistas,
+            'especialistas' => $especialistas
         ]);
     }
 

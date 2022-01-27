@@ -26,17 +26,37 @@ Route::group(['middleware' => 'auth'], function() {
         return view('dashboard');
     })->name('dashboard');
 
-    Route::view('profile', 'profile')->name('profile');
-    Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
 
-    Route::view('gestion-citas', 'gestion-citas')->name('dashboard-citas');
-    Route::get('/citas', [CitaController::class, 'index'])->name('ver-citas');
-    Route::get('/cita/create', [CitaController::class, 'create'])->name('crear-cita');
-    Route::delete('/cita/{cita}', [CitaController::class, 'destroy'])->name('anular-cita');
-    Route::get('/cita/create/{compania}', [CitaController::class, 'createEspecialidad'])->name('crear-cita-especialidad');
-    Route::get('/cita/create/{compania}/{especialidad}', [CitaController::class, 'createEspecialista'])->name('crear-cita-especialista');
-    Route::get('/cita/create/{compania}/{especialidad}/{especialista}', [CitaController::class, 'createFechaHora'])->name('crear-cita-fechaHora');
+    Route::view('profile', 'profile')
+        ->name('profile');
+    Route::put('profile', [ProfileController::class, 'update'])
+        ->name('profile.update');
 
+
+    Route::view('gestion-citas', 'gestion-citas')
+        ->name('dashboard-citas');
+
+    Route::get('/citas', [CitaController::class, 'index'])
+        ->name('ver-citas');
+
+    Route::get('/cita/create', [CitaController::class, 'create'])
+        ->name('crear-cita');
+
+    Route::delete('/cita/{cita}', [CitaController::class, 'destroy'])
+        ->name('anular-cita');
+
+    Route::get('/cita/create/{compania}', [CitaController::class, 'createEspecialidad'])
+        ->name('crear-cita-especialidad');
+
+    Route::get('/cita/create/{compania}/{especialidad}', [CitaController::class, 'createEspecialista'])
+        ->name('crear-cita-especialista');
+
+    Route::get('/cita/create/{compania}/{especialidad}/{especialista:id}', [CitaController::class, 'createFechaHora'])
+        ->where('especialista', '[0-9]+')
+        ->name('crear-cita-fechaHora');
+
+    Route::get('/cita/create/{compania}/{cita}/confirmar', [CitaController::class, 'createConfirmar'])
+        ->name('crear-cita-confirmar');
 
 });
 

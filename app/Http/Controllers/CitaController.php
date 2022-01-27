@@ -71,10 +71,22 @@ class CitaController extends Controller
         ]);
     }
 
+    public function createConfirmar(Compania $compania, Cita $cita)
+    {
+        $usuario = Auth::user();
+
+        return view('citas.create-confirmar', [
+            'compania' => $compania,
+            'cita' => $cita,
+            'usuario' => $usuario,
+        ]);
+    }
+
     public function destroy(Cita $cita)
     {
         $cita->user_id = null;
         $cita->save();
         return redirect(route('ver-citas'))->with('success', 'Cita anulada con exito.');
     }
+
 }

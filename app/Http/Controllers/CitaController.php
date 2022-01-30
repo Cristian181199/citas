@@ -16,10 +16,9 @@ class CitaController extends Controller
 
     public function index()
     {
-        $citas = Auth::user()->citas;
 
         return view('citas.index', [
-            'citas' => $citas,
+            'citas' => Auth::user()->citas,
         ]);
     }
 
@@ -63,6 +62,9 @@ class CitaController extends Controller
 
     public function createFechaHora(Compania $compania, Especialidad $especialidad, Especialista $especialista)
     {
+
+        abort_unless($especialista->companias->contains($compania), 404);
+
         return view('citas.create-fecha-hora', [
             'compania' => $compania,
             'especialidad' => $especialidad,
@@ -73,13 +75,23 @@ class CitaController extends Controller
 
     public function createConfirmar(Compania $compania, Cita $cita)
     {
-        $usuario = Auth::user();
 
         return view('citas.create-confirmar', [
             'compania' => $compania,
             'cita' => $cita,
-            'usuario' => $usuario,
+            'usuario' => Auth::user(),
         ]);
+    }
+
+    public function guardarCita(Compania $compania, Cita $cita)
+    {
+
+        $cita->user_id = Auth::user()->id;
+        $cita->compania_id = $compania->id;
+        $cita->save();
+
+        return redirect(route('ver-citas'))->with('success', 'Cita confirmada con exito');
+
     }
 
     public function destroy(Cita $cita)

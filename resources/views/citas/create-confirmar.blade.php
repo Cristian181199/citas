@@ -32,7 +32,9 @@
                     </div>
                     <div class="flex justify-end space-x-2 pt-3">
                             <a href="{{ route('crear-cita-fechaHora', [$compania, $cita->especialista->especialidad, $cita->especialista]) }}" class="bg-red-500 hover:bg-red-400 transition-colors rounded-[8px] px-[15px] py-[4px] text-white focus:ring-2 ring-red-500">Volver</a>
-                        <form action="#">
+                        <form action="{{ route('guardar-cita', [$compania, $cita]) }}" method="POST">
+                            @csrf
+                            @method('PUT')
                             <button class="bg-green-500 hover:bg-green-400 transition-colors rounded-[8px] px-[15px] py-[4px] text-white focus:ring-2 ring-green-500" type="submit">Confirmar</button>
                         </form>
 

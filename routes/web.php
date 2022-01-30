@@ -58,6 +58,9 @@ Route::group(['middleware' => 'auth'], function() {
     Route::get('/cita/create/{compania}/{cita}/confirmar', [CitaController::class, 'createConfirmar'])
         ->name('crear-cita-confirmar');
 
+    Route::put('/cita/create/{compania}/{cita}/confirmar', [CitaController::class, 'guardarCita'])
+        ->name('guardar-cita');
+
 });
 
 require __DIR__.'/auth.php';

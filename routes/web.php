@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\CitaController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Routing\RouteGroup;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,8 +25,23 @@ Route::get('/', function () {
 Route::group(['middleware' => 'auth'], function() {
 
     Route::get('/dashboard', function () {
+        if (Auth::user()->esEspecialista()) {
+            return redirect()->route('dashboard-especialista');
+        } elseif (Auth::user()->esAdmin()) {
+            return redirect()->route('dashboard-admin');
+        }
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/dashboard-especialista', function () {
+        Gate::authorize('dashboard-especialista');
+        return view('dashboard-especialista');
+    })->name('dashboard-especialista');
+
+    Route::get('/dashboard-admin', function () {
+        Gate::authorize('dashboard-admin');
+        return view('dashboard-admin');
+    })->name('dashboard-admin');
 
 
     Route::view('profile', 'profile')

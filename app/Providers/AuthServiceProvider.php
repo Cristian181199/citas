@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\User;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -25,6 +27,16 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('dashboard-especialista', function (User $user) {
+            return $user->esEspecialista()
+                ? Response::allow()
+                : Response::deny('No tiene permiso para entrar.');
+        });
+
+        Gate::define('dashboard-admin', function (User $user) {
+            return $user->esAdmin()
+                ? Response::allow()
+                : Response::deny('No tiene permiso para entrar.');
+        });
     }
 }

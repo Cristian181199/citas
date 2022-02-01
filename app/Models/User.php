@@ -51,4 +51,34 @@ class User extends Authenticatable
     {
         return $this->hasMany(Cita::class);
     }
+
+    public function especialista()
+    {
+        return $this->hasOne(Especialista::class);
+    }
+
+    public function admin()
+    {
+        return $this->hasOne(Admin::class);
+    }
+
+    public function paciente()
+    {
+        return $this->hasOne(Paciente::class);
+    }
+
+    public function esAdmin()
+    {
+        return $this->administrador !== null;
+    }
+
+    public function esEspecialista()
+    {
+        return $this->especialista !== null;
+    }
+
+    public function esPaciente()
+    {
+        return $this->paciente !== null;
+    }
 }

@@ -38,5 +38,11 @@ class AuthServiceProvider extends ServiceProvider
                 ? Response::allow()
                 : Response::deny('No tiene permiso para entrar.');
         });
+
+        Gate::define('gestion-citas', function (User $user) {
+            return $user->esPaciente()
+                ? Response::allow()
+                : Response::deny('No tiene permiso para entrar');
+        });
     }
 }

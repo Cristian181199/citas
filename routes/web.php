@@ -29,8 +29,9 @@ Route::group(['middleware' => 'auth'], function() {
             return redirect()->route('dashboard-especialista');
         } elseif (Auth::user()->esAdmin()) {
             return redirect()->route('dashboard-admin');
-        }
+        } else {
         return view('dashboard');
+        }
     })->name('dashboard');
 
     Route::get('/dashboard-especialista', function () {
@@ -50,8 +51,13 @@ Route::group(['middleware' => 'auth'], function() {
         ->name('profile.update');
 
 
-    Route::view('gestion-citas', 'gestion-citas')
-        ->name('dashboard-citas');
+    //Route::view('gestion-citas', 'gestion-citas')
+        //->name('dashboard-citas');
+
+    Route::get('/gestion-citas', function () {
+            Gate::authorize('gestion-citas');
+            return view('gestion-citas');
+        })->name('dashboard-citas');
 
     Route::get('/citas', [CitaController::class, 'index'])
         ->name('ver-citas');

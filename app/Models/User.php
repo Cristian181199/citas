@@ -69,7 +69,7 @@ class User extends Authenticatable
 
     public function esAdmin()
     {
-        return $this->administrador !== null;
+        return $this->admin !== null;
     }
 
     public function esEspecialista()

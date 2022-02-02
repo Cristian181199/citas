@@ -15,10 +15,14 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    @if (Auth::user()->esEspecialista() == false)
-                        <x-nav-link :href="route('dashboard-citas')" :active="request()->routeIs('dashboard-citas')">
-                            {{ __('Gestion de citas') }}
-                        </x-nav-link>
+                    @if (Auth::user()->esEspecialista())
+
+                    @elseif (Auth::user()->esAdmin())
+
+                    @else
+                    <x-nav-link :href="route('dashboard-citas')" :active="request()->routeIs('dashboard-citas')">
+                        {{ __('Gestion de citas') }}
+                    </x-nav-link>
                     @endif
 
                 </div>

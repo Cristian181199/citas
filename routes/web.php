@@ -93,4 +93,9 @@ Route::middleware(['auth', 'can:dashboard-paciente'])->group(function () {
 
 });
 
+Route::middleware(['auth', 'can:dashboard-especialista'])->group(function () {
+    Route::get('/especialistas/citas', [CitaController::class, 'especialistasIndex'])
+        ->name('especialistas-ver-citas');
+});
+
 require __DIR__.'/auth.php';

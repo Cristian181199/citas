@@ -6,6 +6,7 @@ use App\Models\Cita;
 use App\Models\Compania;
 use App\Models\Especialidad;
 use App\Models\Especialista;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -47,9 +48,9 @@ class CitaController extends Controller
                              ->where('especialidades.id', '=', $especialidad->id)
                              ->select('compania_especialista.especialista_id as id', 'especialistas.nombre as nombre')->get();*/
 
-        $especialistas = Especialista::whereHas('especialidad', function ($query) use($especialidad) {
+        $especialistas = Especialista::whereHas('especialidad', function (Builder $query) use($especialidad) {
             $query->where('especialidad_id', $especialidad->id);
-        })->whereHas('companias', function ($query) use ($compania) {
+        })->whereHas('companias', function (Builder $query) use ($compania) {
             $query->where('compania_id', $compania->id);
         })->get();
 
@@ -99,6 +100,20 @@ class CitaController extends Controller
         $cita->paciente_id = null;
         $cita->save();
         return redirect(route('ver-citas'))->with('success', 'Cita anulada con exito.');
+    }
+
+    public function especialistasIndex()
+    {
+        $citas = Cita::where('fecha_hora', '>', now())
+            ->has('paciente')
+            ->whereHas('especialista', function (Builder $query) {
+                $query->where('id', Auth::user()->especialista->id);
+            })
+            ->get();
+
+        return view('citas.especialistas-index', [
+            'citas' => $citas,
+        ]);
     }
 
 }

@@ -9,4 +9,4 @@
             </a>
         @endforeach
     <a href="{{ route('crear-cita') }}" class="bg-red-500 hover:bg-red-400 transition-colors rounded-[8px] px-[15px] py-[4px] text-white focus:ring-2 ring-red-500">Volver</a>
-</x-create-citas>
+</x-contenido>

@@ -22,40 +22,42 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(['middleware' => 'auth'], function() {
+// Controla que el usuario que inicia sesion es especialista / admin / paciente y lo redirecciona a su dashboard
+Route::get('/dashboard', function () {
+    if (Auth::user()->esEspecialista()) {
+        return redirect()->route('dashboard-especialista');
+    } elseif (Auth::user()->esAdmin()) {
+        return redirect()->route('dashboard-admin');
+    } else {
+    return view('dashboard');
+    }
+})->middleware(['auth'])->name('dashboard');
 
-    Route::get('/dashboard', function () {
-        if (Auth::user()->esEspecialista()) {
-            return redirect()->route('dashboard-especialista');
-        } elseif (Auth::user()->esAdmin()) {
-            return redirect()->route('dashboard-admin');
-        } else {
-        return view('dashboard');
-        }
-    })->name('dashboard');
+// Ruta para el dashboard cuando el usuario que inicia sesion es especialista.
+Route::get('/dashboard-especialista', function () {
+    //Gate::authorize('dashboard-especialista');
+    return view('dashboard-especialista');
+})->middleware(['auth', 'can:dashboard-especialista'])->name('dashboard-especialista');
 
-    Route::get('/dashboard-especialista', function () {
-        Gate::authorize('dashboard-especialista');
-        return view('dashboard-especialista');
-    })->name('dashboard-especialista');
+// Ruta para el dashboard cuando el usuario que inicia sesion es admin.
+Route::get('/dashboard-admin', function () {
+    //Gate::authorize('dashboard-admin');
+    return view('dashboard-admin');
+})->middleware(['auth', 'can:dashboard-admin'])->name('dashboard-admin');
 
-    Route::get('/dashboard-admin', function () {
-        Gate::authorize('dashboard-admin');
-        return view('dashboard-admin');
-    })->name('dashboard-admin');
+// Rutas para gestionar el perfil de cada usuario.
+Route::view('profile', 'profile')
+->middleware(['auth'])->name('profile');
+Route::put('profile', [ProfileController::class, 'update'])
+->middleware(['auth'])->name('profile.update');
 
 
-    Route::view('profile', 'profile')
-        ->name('profile');
-    Route::put('profile', [ProfileController::class, 'update'])
-        ->name('profile.update');
+// Grupo de rutas para los usuarios que deben estar autenticados y deben ser pacientes para pasar por el gate.
+Route::middleware(['auth', 'can:dashboard-paciente'])->group(function () {
 
 
-    //Route::view('gestion-citas', 'gestion-citas')
-        //->name('dashboard-citas');
 
     Route::get('/gestion-citas', function () {
-            Gate::authorize('gestion-citas');
             return view('gestion-citas');
         })->name('dashboard-citas');
 

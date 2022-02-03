@@ -13,9 +13,9 @@ class Cita extends Model
         'fecha_hora' => 'datetime',
     ];
 
-    public function usuario()
+    public function paciente()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Paciente::class);
     }
 
     public function especialista()

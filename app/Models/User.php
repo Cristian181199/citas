@@ -42,16 +42,6 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function companias()
-    {
-        return $this->belongsToMany(Compania::class);
-    }
-
-    public function citas()
-    {
-        return $this->hasMany(Cita::class);
-    }
-
     public function especialista()
     {
         return $this->hasOne(Especialista::class);

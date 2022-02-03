@@ -9,9 +9,9 @@ class Compania extends Model
 {
     use HasFactory;
 
-    public function usuarios()
+    public function pacientes()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(Paciente::class);
     }
 
     public function citas()

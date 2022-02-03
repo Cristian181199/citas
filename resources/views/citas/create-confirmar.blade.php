@@ -1,4 +1,7 @@
-<x-create-citas>
+<x-contenido>
+    <x-slot name="cabecera">
+        Confirmar Cita
+    </x-slot>
 
     <div class="bg-white rounded-md max-w-4xl mx-auto p-4 space-y-4 shadow-lg">
         <h1 class="text-2xl">Datos de la cita:</h1>
@@ -29,5 +32,5 @@
             <button class="bg-green-500 hover:bg-green-400 transition-colors rounded-[8px] px-[15px] py-[4px] text-white focus:ring-2 ring-green-500" type="submit">Confirmar</button>
         </form>
     </div>
-</x-create-citas>
+</x-contenido>
 

@@ -1,4 +1,7 @@
-<x-create-citas>
+<x-contenido>
+    <x-slot name="cabecera">
+        Especialidades
+    </x-slot>
     <h1 class="text-xl">Seleccione la especialidad</h1>
         @foreach ($especialidades as $especialidad)
             <a class="px-4 m-2 rounded bg-gray-300" href=" {{ route('crear-cita-especialista', [$compania, $especialidad]) }} ">

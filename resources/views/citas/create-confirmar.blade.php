@@ -4,13 +4,13 @@
         <h1 class="text-2xl">Datos de la cita:</h1>
 
         <h3 class="border-t mb-2 pt-3 font-semibold">Compania: <span class="font-thin">{{ $compania->denominacion }}</span></p>
-        <h3 class="border-t mb-2 pt-3 font-semibold">Nombre: <span class="font-thin">{{ $usuario->name }}</span></p>
+        <h3 class="border-t mb-2 pt-3 font-semibold">Nombre: <span class="font-thin">{{ $paciente->nombre }}</span></p>
         <h3 class="border-t mb-2 pt-3 font-semibold">Especialidad: <span class="font-thin">{{ $cita->especialista->especialidad->denominacion }}</span></p>
         <h3 class="border-t mb-2 pt-3 font-semibold">Especialista: <span class="font-thin">{{ $cita->especialista->nombre }}</span></p>
         <h3 class="border-t mb-2 pt-3 font-semibold">Fecha y Hora: <span class="font-thin">{{ $cita->fecha_hora }}</span></p>
 
         <h3 class="border-t mb-2 pt-3 font-semibold">Email:
-            <span class="font-thin">{{ $usuario->email }}</span></p>
+            <span class="font-thin">{{ $paciente->user->email }}</span></p>
         <div class="flex justify-end space-x-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-500 cursor-pointer" fill="none"
                 viewBox="0 0 24 24" stroke="currentColor">

@@ -18,7 +18,7 @@ class CitaController extends Controller
     {
 
         return view('citas.index', [
-            'citas' => Auth::user()->citas,
+            'citas' => Auth::user()->paciente->citas,
         ]);
     }
 
@@ -26,7 +26,7 @@ class CitaController extends Controller
     {
         return view('citas.create', [
             'companias' => Compania::all(),
-            'companias_usuario' => Auth::user()->companias,
+            'companias_usuario' => Auth::user()->paciente->companias,
         ]);
     }
 
@@ -69,7 +69,7 @@ class CitaController extends Controller
             'compania' => $compania,
             'especialidad' => $especialidad,
             'especialista' => $especialista,
-            'citas' => $especialista->citas()->where('user_id', null)->get(),
+            'citas' => $especialista->citas()->where('paciente_id', null)->get(),
         ]);
     }
 
@@ -79,14 +79,14 @@ class CitaController extends Controller
         return view('citas.create-confirmar', [
             'compania' => $compania,
             'cita' => $cita,
-            'usuario' => Auth::user(),
+            'paciente' => Auth::user()->paciente,
         ]);
     }
 
     public function guardarCita(Compania $compania, Cita $cita)
     {
 
-        $cita->user_id = Auth::user()->id;
+        $cita->paciente_id = Auth::user()->paciente->id;
         $cita->compania_id = $compania->id;
         $cita->save();
 
@@ -96,7 +96,7 @@ class CitaController extends Controller
 
     public function destroy(Cita $cita)
     {
-        $cita->user_id = null;
+        $cita->paciente_id = null;
         $cita->save();
         return redirect(route('ver-citas'))->with('success', 'Cita anulada con exito.');
     }
